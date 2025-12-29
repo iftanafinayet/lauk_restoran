@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 // Determine base path
 $base_path = '/lauk_restoran';
 if (isset($_SERVER['CONTEXT_PREFIX'])) {
