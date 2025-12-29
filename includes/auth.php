@@ -1,8 +1,14 @@
 <?php
+// Start session jika belum
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Authentication helper functions
 function requireAdminAuth() {
     if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
-        header('Location: ../login.php');
+        // Redirect ke login dengan absolute path
+        header('Location: /login.php');
         exit;
     }
 }
