@@ -1,5 +1,5 @@
 <?php
-$host = 'host.docker.internal'; // penting untuk Docker
+$host = 'db'; // nama service MySQL di docker-compose
 $dbname = 'lauk_restoran';
 $username = 'root';
 $password = 'basketismylife';
@@ -11,8 +11,6 @@ try {
         $password
     );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Koneksi database gagal: " . $e->getMessage());
 }
-
