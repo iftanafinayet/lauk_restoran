@@ -1,8 +1,10 @@
 <?php
 session_start();
-
-include 'includes/header.php';
 include 'includes/db.php';
+
+/* =====================
+   LOGIC & REDIRECT
+===================== */
 
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
     header('Location: admin/dashboard.php');
@@ -17,20 +19,19 @@ if (isset($_SESSION['logout_message'])) {
     unset($_SESSION['logout_message']);
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    if (!empty($username) && !empty($password)) {
+    if ($username && $password) {
         $stmt = $pdo->prepare("SELECT * FROM admins WHERE username = ?");
         $stmt->execute([$username]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // LOGIN TANPA HASH (PLAINTEXT)
         if ($admin && $password === $admin['password']) {
             $_SESSION['admin_logged_in'] = true;
-            $_SESSION['admin_username'] = $admin['username'];
             $_SESSION['admin_id'] = $admin['id'];
+            $_SESSION['admin_username'] = $admin['username'];
 
             header('Location: admin/dashboard.php');
             exit;
@@ -41,7 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error_message = 'Harap isi semua field.';
     }
 }
+
+/* =====================
+   BARU LOAD HTML
+===================== */
+include 'includes/header.php';
 ?>
+
 
 <div class="container my-5">
     <div class="row justify-content-center">
